@@ -1,0 +1,24 @@
+node_modules
+dist
+.DS_Store
+*.log
+.agents
+
+# Internal / private dev files — never publish
+internal_dev/
+
+# pnpm local store
+.pnpm-store/
+
+# Root-level font source copy (bundled copy lives in packages/app/src/fonts/)
+webfonts/
+
+# Secrets & credentials
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.p12
+*.secret
+secrets.*
