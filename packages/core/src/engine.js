@@ -1,3 +1,3 @@
-import { createOpenAsciiRuntime } from './runtime.js';
+import { createWaveframeRuntime } from './runtime.js';
 
-export const { AsciiEngine } = createOpenAsciiRuntime();
+export const { AsciiEngine } = createWaveframeRuntime();

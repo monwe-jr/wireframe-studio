@@ -4,7 +4,7 @@
  * Everything required by the editor is deliberately enclosed in this factory so
  * the exact same implementation can be serialized into HTML/React exports.
  */
-export function createOpenAsciiRuntime() {
+export function createWaveframeRuntime() {
   const clamp = (n, a = 0, b = 1) => Math.max(a, Math.min(b, n));
   const lerp = (a, b, t) => a + (b - a) * t;
   const TAU = Math.PI * 2;
@@ -1879,5 +1879,5 @@ export function createOpenAsciiRuntime() {
 }
 
 export function createRuntimeSource() {
-  return `(${createOpenAsciiRuntime.toString()})()`;
+  return `(${createWaveframeRuntime.toString()})()`;
 }

@@ -66,7 +66,7 @@ function Save-CdpScreenshot {
 
 function Step-ParticleField {
   param([System.Net.WebSockets.ClientWebSocket]$Socket,[int]$Frames,[int]$StartFrame)
-  $expression = "(()=>{const e=document.querySelector('#ascii-canvas').__openAsciiEngine;for(let i=0;i<$Frames;i++)e.physics.update(1/60,e.pointer,e.config,e.frame,($StartFrame+i)*1000/60);e.draw(($StartFrame+$Frames)*1000/60,1/240);return true})()"
+  $expression = "(()=>{const e=document.querySelector('#ascii-canvas').__waveframeEngine;for(let i=0;i<$Frames;i++)e.physics.update(1/60,e.pointer,e.config,e.frame,($StartFrame+i)*1000/60);e.draw(($StartFrame+$Frames)*1000/60,1/240);return true})()"
   Send-CdpMessage $Socket 'Runtime.evaluate' @{ expression = $expression; returnByValue = $true } | Out-Null
 }
 
@@ -162,7 +162,7 @@ try {
       Send-CdpMessage $socket 'Page.navigate' @{ url = "http://127.0.0.1:$appPort/?benchmark=1&clean=1&capture=1&preset=6" } | Out-Null
       Wait-CanvasReady $socket
       $json = $case.Config | ConvertTo-Json -Compress
-      $expression = "(()=>{const canvas=document.querySelector('#ascii-canvas'),engine=canvas.__openAsciiEngine;engine.stop();engine.setConfig($json);for(let i=0;i<48;i++)engine.draw(i*1000/60,1/60);const r=canvas.getBoundingClientRect();return {width:r.width,height:r.height,ready:canvas.dataset.renderReady,fx:engine.config.fxPreset,temporal:!!engine.temporal}})()"
+      $expression = "(()=>{const canvas=document.querySelector('#ascii-canvas'),engine=canvas.__waveframeEngine;engine.stop();engine.setConfig($json);for(let i=0;i<48;i++)engine.draw(i*1000/60,1/60);const r=canvas.getBoundingClientRect();return {width:r.width,height:r.height,ready:canvas.dataset.renderReady,fx:engine.config.fxPreset,temporal:!!engine.temporal}})()"
       $evaluation = Send-CdpMessage $socket 'Runtime.evaluate' @{ expression = $expression; returnByValue = $true }
       $result = $evaluation.result.value
       if ($result.ready -ne '1' -or -not $result.temporal) { throw "Temporal case $($case.Name) did not initialize the shared compositor." }
@@ -210,7 +210,7 @@ try {
       Send-CdpMessage $socket 'Page.navigate' @{ url = "http://127.0.0.1:$appPort/$query" } | Out-Null
       Wait-CanvasReady $socket
       $evaluation = Send-CdpMessage $socket 'Runtime.evaluate' @{
-        expression = "(()=>{const canvas=document.querySelector('#ascii-canvas'),engine=canvas.__openAsciiEngine,c=engine.config,r=canvas.getBoundingClientRect();return {width:r.width,height:r.height,archetype:c.archetype,archetypeLabel:c.archetypeLabel,artStyle:c.artStyle,secondaryStyle:c.secondaryStyle,toneProfile:c.toneProfile,densityProfile:c.densityProfile,paletteFamily:c.paletteFamily,fxPreset:c.fxPreset,contrast:c.contrast,gamma:c.gamma,densityScale:c.densityScale,characterSpacing:c.characterSpacing,glowStrength:c.glowStrength,fxStrength:c.fxStrength,clickSensitivity:c.clickSensitivity}})()"
+        expression = "(()=>{const canvas=document.querySelector('#ascii-canvas'),engine=canvas.__waveframeEngine,c=engine.config,r=canvas.getBoundingClientRect();return {width:r.width,height:r.height,archetype:c.archetype,archetypeLabel:c.archetypeLabel,artStyle:c.artStyle,secondaryStyle:c.secondaryStyle,toneProfile:c.toneProfile,densityProfile:c.densityProfile,paletteFamily:c.paletteFamily,fxPreset:c.fxPreset,contrast:c.contrast,gamma:c.gamma,densityScale:c.densityScale,characterSpacing:c.characterSpacing,glowStrength:c.glowStrength,fxStrength:c.fxStrength,clickSensitivity:c.clickSensitivity}})()"
         returnByValue = $true
       }
       $config = $evaluation.result.value
