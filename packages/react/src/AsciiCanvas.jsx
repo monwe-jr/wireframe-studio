@@ -13,7 +13,7 @@ export function AsciiCanvas({
     engine = useRef(null);
   useEffect(() => {
     engine.current = new AsciiEngine(ref.current, config);
-    if (exposeEngine) ref.current.__waveframeEngine = engine.current;
+    if (exposeEngine) ref.current.__wireframeEngine = engine.current;
     engine.current.resize();
     if (!staticFrame) engine.current.start(onStats);
     const ro = new ResizeObserver(() => {
@@ -23,7 +23,7 @@ export function AsciiCanvas({
     ro.observe(ref.current);
     return () => {
       ro.disconnect();
-      if (ref.current) delete ref.current.__waveframeEngine;
+      if (ref.current) delete ref.current.__wireframeEngine;
       engine.current?.destroy();
     };
   }, []);

@@ -31,7 +31,7 @@ export const useEditor = create((set) => ({
   past: [],
   loading: false,
   generationHistory: [],
-  filename: "WAVEFRAME_DEMO.PNG",
+  filename: "WIREFRAME_DEMO.PNG",
   image: null,
   sourceUrl: "",
   fps: 0,

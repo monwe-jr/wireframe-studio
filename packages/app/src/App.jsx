@@ -254,7 +254,7 @@ function makeDemo() {
   x.fillRect(0, 610, 1000, 150);
   x.font = "700 42px monospace";
   x.fillStyle = "#c6ff3d";
-  x.fillText("WAVEFRAME", 56, 690);
+  x.fillText("WIREFRAME", 56, 690);
   const url = c.toDataURL("image/png"),
     img = new Image();
   img.src = url;
@@ -1070,7 +1070,7 @@ function Modal({ title, onClose, children }) {
       <div className="modal" role="dialog" aria-modal="true">
         <header>
           <div>
-            <small>WAVEFRAME / OUTPUT</small>
+            <small>WIREFRAME / OUTPUT</small>
             <h2>{title}</h2>
           </div>
           <button className="icon-button" onClick={onClose} aria-label="Close">
@@ -1376,7 +1376,7 @@ function App() {
       {exportOpen && <ExportModal onClose={() => setExportOpen(false)} />}{" "}
       {presetsOpen && <PresetModal onClose={() => setPresetsOpen(false)} />}{" "}
       {about && (
-        <Modal title="ABOUT WAVEFRAME" onClose={() => setAbout(false)}>
+        <Modal title="ABOUT WIREFRAME" onClose={() => setAbout(false)}>
           <p className="about-copy">
             WireFrame is an open-source, browser-native studio for turning
             images into animated, cursor-reactive ASCII compositions. Every

@@ -1,3 +1,3 @@
-import { createWaveframeRuntime } from './runtime.js';
+import { createWireframeRuntime } from './runtime.js';
 
-export const { AsciiEngine } = createWaveframeRuntime();
+export const { AsciiEngine } = createWireframeRuntime();

@@ -26,7 +26,7 @@
   <body>
     <canvas data-wireframe aria-label="Interactive ASCII artwork"></canvas>
     <script>
-      const { AsciiEngine } = (function createWaveframeRuntime() {
+      const { AsciiEngine } = (function createWireframeRuntime() {
         const clamp = (n, a = 0, b = 1) => Math.max(a, Math.min(b, n));
         const lerp = (a, b, t) => a + (b - a) * t;
         const TAU = Math.PI * 2;

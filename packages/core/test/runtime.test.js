@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createWaveframeRuntime, createRuntimeSource } from '../src/index.js';
+import { createWireframeRuntime, createRuntimeSource } from '../src/index.js';
 
 test('runtime factory exposes the shared rendering contracts', () => {
-  const runtime = createWaveframeRuntime();
+  const runtime = createWireframeRuntime();
   assert.equal(typeof runtime.AsciiEngine, 'function');
   assert.equal(typeof runtime.FrameProcessor, 'function');
   assert.equal(typeof runtime.GlyphAtlas, 'function');
@@ -16,7 +16,7 @@ test('runtime factory exposes the shared rendering contracts', () => {
 });
 
 test('temporal decay is frame-rate independent and ghost plans stay bounded', () => {
-  const { TemporalCompositor } = createWaveframeRuntime();
+  const { TemporalCompositor } = createWireframeRuntime();
   const temporal=new TemporalCompositor();
   assert.ok(Math.abs(temporal.decayAlpha(.8,1/30)-.64)<1e-9);
   assert.equal(temporal.decayAlpha(2,1/60),.94);
@@ -26,7 +26,7 @@ test('temporal decay is frame-rate independent and ghost plans stay bounded', ()
 });
 
 test('color engine preserves tonal separation and sampled source hues', () => {
-  const { ColorEngine, DEFAULTS } = createWaveframeRuntime();
+  const { ColorEngine, DEFAULTS } = createWireframeRuntime();
   const frame={red:new Float32Array([1,0]),green:new Float32Array([0,0]),blue:new Float32Array([0,1])};
   const tonal=new ColorEngine({...DEFAULTS,colorMode:'matrix-green',foreground:'#36e66a',background:'#020a04',accent:'#d8ff57',colorMix:1},frame);
   assert.notEqual(tonal.colorAt(0,.18,.2),tonal.colorAt(0,.82,.7),'palette modes need distinct shadow and highlight colors');
@@ -35,7 +35,7 @@ test('color engine preserves tonal separation and sampled source hues', () => {
 });
 
 test('pointer press repels the complete field and retains spring energy', () => {
-  const { PhysicsField, DEFAULTS } = createWaveframeRuntime();
+  const { PhysicsField, DEFAULTS } = createWireframeRuntime();
   const frame={count:6,cols:3,rows:2,cellW:10,cellH:10};
   const physics=new PhysicsField(frame),pointer={active:true,down:true,downX:15,downY:10,x:15,y:10,burst:1};
   physics.update(1/60,pointer,{...DEFAULTS,artStyle:'classic-ascii',fxPreset:'none',hoverStrength:0,clickSensitivity:1.2},frame,0);
@@ -45,7 +45,7 @@ test('pointer press repels the complete field and retains spring energy', () => 
 });
 
 test('released particle field overshoots and then returns slowly', () => {
-  const { PhysicsField, DEFAULTS } = createWaveframeRuntime();
+  const { PhysicsField, DEFAULTS } = createWireframeRuntime();
   const frame={count:100,cols:10,rows:10,cellW:10,cellH:10,saliency:new Float32Array(100).fill(.5)};
   const physics=new PhysicsField(frame),pointer={active:true,down:true,downX:50,downY:50,x:50,y:50,pressure:.5,burst:1};
   const config={...DEFAULTS,artStyle:'particles',fxPreset:'none',hoverStrength:0,clickSensitivity:1.15,clickReturn:.24,clickDamping:.48,springStrength:26,damping:7.2};
@@ -63,7 +63,7 @@ test('released particle field overshoots and then returns slowly', () => {
 });
 
 test('line systems expose deterministic scan, flow, and contour geometry', () => {
-  const { LineRenderer, DEFAULTS } = createWaveframeRuntime();
+  const { LineRenderer, DEFAULTS } = createWireframeRuntime();
   const renderer=new LineRenderer(),frame={
     cellW:10,cellH:12,
     edge:new Float32Array([.8]),localContrast:new Float32Array([.6]),saliency:new Float32Array([.7]),
@@ -81,7 +81,7 @@ test('line systems expose deterministic scan, flow, and contour geometry', () =>
 });
 
 test('shared style interpretation preserves structure across every renderer', () => {
-  const { StyleInterpreter, DEFAULTS } = createWaveframeRuntime();
+  const { StyleInterpreter, DEFAULTS } = createWireframeRuntime();
   const styles=new StyleInterpreter(),frame={
     edge:new Float32Array([0,.9]),localContrast:new Float32Array([0,.75]),variance:new Float32Array([0,.42]),
     saliency:new Float32Array([0,.86]),gradientMagnitude:new Float32Array([0,.5]),gradientDirection:new Float32Array([0,Math.PI/3])
@@ -94,7 +94,7 @@ test('shared style interpretation preserves structure across every renderer', ()
 });
 
 test('composition profiles materially change tonal topology and density', () => {
-  const { CompositionInterpreter, DEFAULTS } = createWaveframeRuntime();
+  const { CompositionInterpreter, DEFAULTS } = createWireframeRuntime();
   const compositions=new CompositionInterpreter(),frame={
     edge:new Float32Array([.08,.82]),localContrast:new Float32Array([.12,.72]),variance:new Float32Array([.1,.54]),
     saliency:new Float32Array([.16,.88]),gradientMagnitude:new Float32Array([.08,.74]),gradientDirection:new Float32Array([0,Math.PI/3])
@@ -113,7 +113,7 @@ test('composition profiles materially change tonal topology and density', () => 
 });
 
 test('secondary renderer weights are deterministic and region aware', () => {
-  const { CompositionInterpreter, DEFAULTS } = createWaveframeRuntime();
+  const { CompositionInterpreter, DEFAULTS } = createWireframeRuntime();
   const compositions=new CompositionInterpreter(),frame={
     edge:new Float32Array([.06,.9]),localContrast:new Float32Array([.08,.72]),variance:new Float32Array([.08,.48]),
     saliency:new Float32Array([.12,.84]),gradientMagnitude:new Float32Array([.05,.68]),gradientDirection:new Float32Array([0,Math.PI/2])
@@ -128,6 +128,6 @@ test('secondary renderer weights are deterministic and region aware', () => {
 
 test('serialized export runtime is executable and API-equivalent', () => {
   const runtime = new Function(`return ${createRuntimeSource()}`)();
-  assert.deepEqual(Object.keys(runtime).sort(), Object.keys(createWaveframeRuntime()).sort());
+  assert.deepEqual(Object.keys(runtime).sort(), Object.keys(createWireframeRuntime()).sort());
   assert.equal(runtime.DEFAULTS.seed, 1337);
 });

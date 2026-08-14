@@ -23,7 +23,7 @@ The v2 runtime builds immutable `FrameData` from a three-samples-per-cell analys
 
 Animation state is separate from image analysis. Each cell has a rest position, velocity, mass, and persistent displacement integrated with delta time, spring force, damping, coherent noise, and the selected pointer force field.
 
-`createWaveframeRuntime()` is intentionally self-contained. The React editor imports it normally, while HTML and JSX exporters serialize the same factory. There is no reduced export renderer.
+`createWireframeRuntime()` is intentionally self-contained. The React editor imports it normally, while HTML and JSX exporters serialize the same factory. There is no reduced export renderer.
 
 ## Privacy
 

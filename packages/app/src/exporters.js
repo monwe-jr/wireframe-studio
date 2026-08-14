@@ -70,7 +70,7 @@ export function createReactArtifact(config, source) {
   const runtime = exactRuntime(config, source, "ref.current");
   return `import { useEffect, useRef } from 'react';
 
-export default function WaveframeArt({ className = '', style = {} }) {
+export default function WireframeArt({ className = '', style = {} }) {
   const ref = useRef(null);
   useEffect(() => {
     ${runtime}
@@ -86,6 +86,6 @@ export function exportReact(config, sourceUrl, canvas) {
   const jsx = createReactArtifact(config, source);
   save(
     new Blob([jsx], { type: "text/javascript" }),
-    `WaveframeArt-${Date.now()}.jsx`,
+    `WireframeArt-${Date.now()}.jsx`,
   );
 }

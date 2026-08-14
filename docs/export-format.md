@@ -4,7 +4,7 @@
 
 A single HTML document containing the canvas, image data URL, configuration snapshot, mouse interaction, resize handling, and off-screen pause. It has no runtime package dependency.
 
-The runtime is produced by serializing the same `createWaveframeRuntime()` factory imported by the editor. Renderer selection, `FrameData` preprocessing, adaptive dithering, glyph analysis, spring physics, coherent noise, temporal buffers, and post-effects therefore remain identical. Run `pnpm benchmark:export` to regenerate `examples/Profile_WireFrame.html` from the checked-in portrait benchmark.
+The runtime is produced by serializing the same `createWireframeRuntime()` factory imported by the editor. Renderer selection, `FrameData` preprocessing, adaptive dithering, glyph analysis, spring physics, coherent noise, temporal buffers, and post-effects therefore remain identical. Run `pnpm benchmark:export` to regenerate `examples/Profile_WireFrame.html` from the checked-in portrait benchmark.
 
 ## React component
 
