@@ -94,7 +94,7 @@ export const VISUAL_ARCHETYPES=deepFreeze([
     ranges:{contrast:[1.3,1.66],fxStrength:[.08,.22],structureMix:[.12,.32]}
   }),
   archetype('amber-mosaic','AMBER MOSAIC',{
-    primary:['claude-code','retro-art'],secondary:['none','retro-art','dot-cross'],tone:['duotone','source'],density:['bands','structure'],
+    primary:['monochrome','retro-art'],secondary:['none','retro-art','dot-cross'],tone:['duotone','source'],density:['bands','structure'],
     palettes:['amber','spectrum','paper'],characters:['blocks','simple','detailed'],dithers:['floyd-steinberg','atkinson'],
     effects:['none','noise-field','beam-sweep','glitch'],backgrounds:['solid','grid'],interactions:['push'],
     secondaryRegions:['highlight','edge'],primitives:['square'],ranges:{contrast:[1.52,1.92],structureMix:[.24,.44]}
@@ -136,7 +136,7 @@ export const VISUAL_ARCHETYPES=deepFreeze([
     secondaryRegions:['edge'],ranges:{contrast:[1.48,1.88],structureMix:[.34,.54]}
   }),
   archetype('sampled-pixel-field','SAMPLED PIXEL FIELD',{
-    primary:['retro-art'],secondary:['none','claude-code','dot-cross'],tone:['source','duotone'],density:['bands','continuous'],
+    primary:['retro-art'],secondary:['none','monochrome','dot-cross'],tone:['source','duotone'],density:['bands','continuous'],
     palettes:['sampled','spectrum','electric','amber'],characters:['blocks','simple'],dithers:['atkinson','bayer'],effects:['none','noise-field','beam-sweep'],
     interactions:['push'],secondaryRegions:['edge'],primitives:['square'],
     ranges:{contrast:[1.42,1.84],structureMix:[.14,.34],glowStrength:[.04,.14]}
@@ -154,7 +154,7 @@ export const VISUAL_ARCHETYPES=deepFreeze([
     ranges:{contrast:[1.5,1.94],structureMix:[.28,.52],densityScale:[1.04,1.28]}
   }),
   archetype('hybrid-edge-mosaic','HYBRID EDGE MOSAIC',{
-    primary:['claude-code','retro-art'],secondary:['line','dot-cross','particles'],tone:['duotone','source'],density:['bands','structure'],
+    primary:['monochrome','retro-art'],secondary:['line','dot-cross','particles'],tone:['duotone','source'],density:['bands','structure'],
     palettes:['amber','sampled','spectrum','paper'],characters:['blocks','detailed'],dithers:['atkinson','floyd-steinberg'],
     effects:['none','noise-field','beam-sweep','crt','glitch'],backgrounds:['solid','grid'],interactions:['push','ripple'],
     secondaryRegions:['edge'],primitives:['square'],lineSystems:['flow','contour'],
@@ -292,7 +292,7 @@ export function validatePreset(config={}) {
   if(config.secondaryStyle==='none'&&Number(config.secondaryMix)!==0)errors.push('secondary-mix');
   if(config.secondaryStyle!=='none'&&(Number(config.secondaryMix)<.1||Number(config.secondaryMix)>.34))errors.push('secondary-mix');
   if(config.artStyle==='terminal'&&!['binary','simple','custom'].includes(config.characterSet))errors.push('terminal-characters');
-  if(['retro-art','claude-code'].includes(config.artStyle)&&!['blocks','simple','detailed'].includes(config.characterSet))errors.push('mosaic-characters');
+  if(['retro-art','monochrome'].includes(config.artStyle)&&!['blocks','simple','detailed'].includes(config.characterSet))errors.push('mosaic-characters');
   if(config.toneProfile==='edge'&&(Number(config.localContrast)<.9||Number(config.edgeEnhance)<.9))errors.push('edge-analysis');
   if(config.densityProfile==='threshold'&&Number(config.densityThreshold)>.42&&Number(config.contrast)<1.4)errors.push('threshold-contrast');
   if(['crt','intervals'].includes(config.fxPreset)&&Number(config.fxStrength)>.28)errors.push('fine-effect');

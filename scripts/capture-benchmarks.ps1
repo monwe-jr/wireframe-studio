@@ -89,7 +89,7 @@ $systems = if ($Styles) {
     @{ System = 9; Name = '43-style-dot-cross.png' },
     @{ System = 2; Name = '44-style-line.png' },
     @{ System = 7; Name = '45-style-particles.png' },
-    @{ System = 1; Name = '46-style-claude-code.png' },
+    @{ System = 1; Name = '46-style-monochrome.png' },
     @{ System = 5; Name = '47-style-retro-art.png' },
     @{ System = 3; Name = '48-style-terminal.png' }
   )

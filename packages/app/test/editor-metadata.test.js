@@ -5,7 +5,7 @@ import { buildEditorMetadata } from '../src/editor-metadata.js';
 test('metadata matches the seven-row ASC11 readout contract', () => {
   assert.deepEqual(buildEditorMetadata({
     archetypeLabel:'AMBER MOSAIC',
-    artStyle:'claude-code',
+    artStyle:'monochrome',
     font:'Space Mono',
     aspectRatio:'3:4',
     fxPreset:'noise-field',

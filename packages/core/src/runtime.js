@@ -1143,7 +1143,7 @@ export function createWireframeRuntime() {
       ctx.globalAlpha = s.alpha;
     }
   }
-  class ClaudeRenderer {
+  class MonochromeRenderer {
     draw(ctx, s) {
       const gx = s.f.gradientX[s.i] || 0,
         gy = s.f.gradientY[s.i] || 0,
@@ -1226,7 +1226,7 @@ export function createWireframeRuntime() {
     "dot-cross": new DotCrossRenderer(),
     "retro-art": new RetroRenderer(),
     terminal: new TerminalRenderer(),
-    "claude-code": new ClaudeRenderer(),
+    monochrome: new MonochromeRenderer(),
     "line-art": new LineArtRenderer(),
   };
 

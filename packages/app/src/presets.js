@@ -40,7 +40,7 @@ const FOUNDATION = {
 
 const BASE_PRESET_SYSTEMS = [
   { name:'Cyan Braille Field', artStyle:'braille', characterSet:'detailed', colorMode:'cyanotype', foreground:'#5cecff', background:'#030d13', accent:'#e6fbff', ditherAlgorithm:'bayer', ditherStrength:.48, brightness:50, contrast:1.58, fontSize:8, characterSpacing:.9, densityScale:1.18, primitiveShape:'circle', fxPreset:'none', fxStrength:.15, glowStrength:.16, invertColor:false, mouseMode:'push' },
-  { name:'Amber Mosaic', artStyle:'claude-code', characterSet:'blocks', colorMode:'amber-monitor', foreground:'#ff8a19', background:'#080400', accent:'#ffe4a6', ditherAlgorithm:'floyd-steinberg', ditherStrength:.52, brightness:51, contrast:1.72, fontSize:8, characterSpacing:.92, densityScale:1.12, primitiveShape:'square', fxPreset:'noise-field', fxStrength:.18, glowStrength:.1, invertColor:false, mouseMode:'push' },
+  { name:'Amber Mosaic', artStyle:'monochrome', characterSet:'blocks', colorMode:'amber-monitor', foreground:'#ff8a19', background:'#080400', accent:'#ffe4a6', ditherAlgorithm:'floyd-steinberg', ditherStrength:.52, brightness:51, contrast:1.72, fontSize:8, characterSpacing:.92, densityScale:1.12, primitiveShape:'square', fxPreset:'noise-field', fxStrength:.18, glowStrength:.1, invertColor:false, mouseMode:'push' },
   { name:'Contour Wire', artStyle:'line', colorMode:'ice-white', foreground:'#f7fbff', background:'#02060c', accent:'#a8d7ff', ditherAlgorithm:'blue-noise', ditherStrength:.12, brightness:49, contrast:1.56, gamma:.9, localContrast:1.18, edgeEnhance:1.18, saliencyDetail:1.16, fontSize:7, characterSpacing:.92, densityScale:1.2, primitiveThickness:.78, lineSystem:'flow', lineDirection:0, lineContour:.18, lineLength:1.24, lineVariation:.2, lineSecondary:.04, fxPreset:'none', fxStrength:0, glowStrength:.08, invertColor:false, mouseMode:'ripple' },
   { name:'Binary Phosphor', artStyle:'terminal', characterSet:'binary', colorMode:'matrix-green', foreground:'#36e66a', background:'#020a04', accent:'#d8ff57', ditherAlgorithm:'none', ditherStrength:0, brightness:49, contrast:1.34, fontSize:9, characterSpacing:1, densityScale:1.08, fxPreset:'intervals', fxStrength:.2, glowStrength:.2, invertColor:false, mouseMode:'attract' },
   { name:'Silver Halftone', artStyle:'halftone', colorMode:'grayscale', foreground:'#f5f5f1', background:'#060708', accent:'#ffffff', ditherAlgorithm:'bayer', ditherStrength:.42, brightness:51, contrast:1.5, fontSize:8, characterSpacing:.88, densityScale:1.15, primitiveShape:'circle', fxPreset:'crt', fxStrength:.18, glowStrength:.12, invertColor:false, mouseMode:'push' },
@@ -58,7 +58,7 @@ const COMPOSITION_RECIPES = [
   {toneProfile:'edge',densityProfile:'threshold',densityThreshold:.22,structureMix:.74,secondaryStyle:'dot-cross',secondaryMix:.18,secondaryRegion:'edge'},
   {toneProfile:'inverse',densityProfile:'continuous',densityThreshold:.3,structureMix:.18,secondaryStyle:'none',secondaryMix:0,secondaryRegion:'shadow'},
   {toneProfile:'source',densityProfile:'threshold',densityThreshold:.28,structureMix:.32,secondaryStyle:'particles',secondaryMix:.26,secondaryRegion:'highlight'},
-  {toneProfile:'duotone',densityProfile:'bands',densityThreshold:.2,structureMix:.2,secondaryStyle:'claude-code',secondaryMix:.18,secondaryRegion:'edge'},
+  {toneProfile:'duotone',densityProfile:'bands',densityThreshold:.2,structureMix:.2,secondaryStyle:'monochrome',secondaryMix:.18,secondaryRegion:'edge'},
   {toneProfile:'source',densityProfile:'continuous',densityThreshold:.18,structureMix:.46,secondaryStyle:'line',secondaryMix:.14,secondaryRegion:'edge'},
   {toneProfile:'edge',densityProfile:'structure',densityThreshold:.18,structureMix:.68,secondaryStyle:'line',secondaryMix:.3,secondaryRegion:'edge'},
   {toneProfile:'duotone',densityProfile:'threshold',densityThreshold:.32,structureMix:.38,secondaryStyle:'halftone',secondaryMix:.2,secondaryRegion:'shadow'},
@@ -76,5 +76,5 @@ export {
 } from './preset-generator.js';
 
 export const STYLES = [
-  ['classic-ascii','ASCII'],['braille','BRAILLE'],['halftone','HALFTONE'],['dot-cross','DOT CROSS'],['line','LINE'],['particles','PARTICLES'],['claude-code','CLAUDE CODE'],['retro-art','RETRO ART'],['terminal','TERMINAL'],['line-art','WIREFRAME']
+  ['classic-ascii','ASCII'],['braille','BRAILLE'],['halftone','HALFTONE'],['dot-cross','DOT CROSS'],['line','LINE'],['particles','PARTICLES'],['monochrome','MONOCHROME'],['retro-art','RETRO ART'],['terminal','TERMINAL'],['line-art','WIREFRAME']
 ];
