@@ -44,7 +44,7 @@ Open the URL printed in the terminal (typically `http://localhost:5173`), drop a
 
 ### Render modes (10)
 
-Classic ASCII · Braille · Halftone · Dot Cross · Line · Particles · Monochrome · Retro Art · Terminal · Wireframe
+Classic ASCII · Braille · Halftone · Dot Cross · Line · Particles · Monochrome · Retro Art · Terminal · Blueprint
 
 ### Color palettes (9)
 

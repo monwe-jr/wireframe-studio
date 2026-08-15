@@ -49,7 +49,7 @@ const BASE_PRESET_SYSTEMS = [
   { name:'Electric Particles', artStyle:'particles', colorMode:'palette-gradient', foreground:'#4fe4ff', background:'#02070c', accent:'#f2fcff', ditherAlgorithm:'blue-noise', ditherStrength:.14, brightness:49, contrast:1.5, gamma:.9, localContrast:1.16, edgeEnhance:1.12, edgeEmphasis:1.2, saliencyDetail:1.2, fontSize:7, characterSpacing:.92, densityScale:1.22, primitiveShape:'square', primitiveThickness:.88, particleVariation:.52, particleJitter:.11, particleDepth:.86, fxPreset:'noise-field', fxStrength:.16, glowStrength:.2, invertColor:false, mouseMode:'swirl',clickReturn:.24,clickDamping:.48 },
   { name:'Warm Duotone Lines', artStyle:'line', colorMode:'palette-gradient', foreground:'#ff9418', background:'#050200', accent:'#ffd46a', colorMix:.94, highlightBoost:.55, ditherAlgorithm:'atkinson', ditherStrength:.2, brightness:52, contrast:1.66, gamma:.88, localContrast:1.14, edgeEnhance:1.16, saliencyDetail:1.12, fontSize:7, characterSpacing:.9, densityScale:1.22, primitiveThickness:1.3, lineSystem:'scan', lineDirection:48, lineContour:.12, lineLength:1.2, lineVariation:.12, lineSecondary:.06, fxPreset:'none', fxStrength:0, glowStrength:.18, invertColor:false, mouseMode:'ripple' },
   { name:'Dot Cross Portrait', artStyle:'dot-cross', colorMode:'ice-white', foreground:'#f4f7fb', background:'#070a0f', accent:'#c9dcff', ditherAlgorithm:'bayer', ditherStrength:.34, brightness:49, contrast:1.54, gamma:.9, localContrast:1.16, edgeEnhance:1.2, saliencyDetail:1.14, fontSize:8, characterSpacing:1, densityScale:1.16, primitiveThickness:.92, fxPreset:'intervals', fxStrength:.1, glowStrength:.08, invertColor:false, mouseMode:'push' },
-  { name:'Wireframe Contours', artStyle:'line-art', colorMode:'ice-white', foreground:'#f4f7fb', background:'#02060c', accent:'#a8d7ff', ditherAlgorithm:'bayer', ditherStrength:.3, brightness:50, contrast:1.62, gamma:.9, localContrast:1.2, edgeEnhance:1.22, saliencyDetail:1.14, fontSize:9, characterSpacing:1, densityScale:1.14, fxPreset:'none', fxStrength:0, glowStrength:.1, invertColor:false, mouseMode:'ripple' }
+  { name:'Blueprint Contours', artStyle:'line-art', colorMode:'ice-white', foreground:'#f4f7fb', background:'#02060c', accent:'#a8d7ff', ditherAlgorithm:'bayer', ditherStrength:.3, brightness:50, contrast:1.62, gamma:.9, localContrast:1.2, edgeEnhance:1.22, saliencyDetail:1.14, fontSize:9, characterSpacing:1, densityScale:1.14, fxPreset:'none', fxStrength:0, glowStrength:.1, invertColor:false, mouseMode:'ripple' }
 ];
 
 const COMPOSITION_RECIPES = [
@@ -76,5 +76,5 @@ export {
 } from './preset-generator.js';
 
 export const STYLES = [
-  ['classic-ascii','ASCII'],['braille','BRAILLE'],['halftone','HALFTONE'],['dot-cross','DOT CROSS'],['line','LINE'],['particles','PARTICLES'],['monochrome','MONOCHROME'],['retro-art','RETRO ART'],['terminal','TERMINAL'],['line-art','WIREFRAME']
+  ['classic-ascii','ASCII'],['braille','BRAILLE'],['halftone','HALFTONE'],['dot-cross','DOT CROSS'],['line','LINE'],['particles','PARTICLES'],['monochrome','MONOCHROME'],['retro-art','RETRO ART'],['terminal','TERMINAL'],['line-art','BLUEPRINT','BP']
 ];

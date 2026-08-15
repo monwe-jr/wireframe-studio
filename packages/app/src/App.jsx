@@ -390,13 +390,15 @@ function Sidebar({ onExport, onPresets, audioSource }) {
         </Section>
         <Section title="LAYER 01" tag="ACTIVE">
           <div className="style-grid">
-            {STYLES.map(([id, label]) => (
+            {STYLES.map(([id, label, code]) => (
               <Button
                 key={id}
                 active={config.artStyle === id}
                 onClick={() => setConfig({ artStyle: id })}
               >
-                <span className={`glyph glyph-${id}`}>{label.slice(0, 2)}</span>
+                <span className={`glyph glyph-${id}`}>
+                  {code || label.slice(0, 2)}
+                </span>
                 {label}
               </Button>
             ))}
