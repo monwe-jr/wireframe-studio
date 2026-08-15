@@ -28,7 +28,7 @@ test('coherent preset systems cover every ASC11 art-style family', () => {
   const styleIds=STYLES.map(([id])=>id).sort();
   const covered=[...new Set(PRESET_SYSTEMS.map(system=>system.artStyle))].sort();
   assert.deepEqual(covered,styleIds);
-  assert.equal(styleIds.length,9);
+  assert.equal(styleIds.length,10);
 });
 
 test('preset systems vary composition rather than only renderer and color', () => {

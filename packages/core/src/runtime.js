@@ -1140,6 +1140,65 @@ export function createWireframeRuntime() {
       ctx.fillText(char, s.x, s.y);
     }
   }
+  class LineArtRenderer {
+    direction(f, index) {
+      const gx = f.gradientX[index] || 0,
+        gy = f.gradientY[index] || 0;
+      if (Math.hypot(gx, gy) < 0.02) return null;
+      const ratio = Math.abs(gx) / (Math.abs(gx) + Math.abs(gy) + 0.0001);
+      if (ratio > 0.68) return "v";
+      if (ratio < 0.32) return "h";
+      return gx * gy < 0 ? "/" : "\\";
+    }
+    draw(ctx, s) {
+      const f = s.f,
+        i = s.i,
+        cols = f.cols,
+        rows = f.rows,
+        col = i % cols,
+        row = (i / cols) | 0,
+        own = this.direction(f, i);
+      if (!own || s.style.edge < 0.16) {
+        ctx.fillText(" ", s.x, s.y);
+        return;
+      }
+      if (own === "/" || own === "\\") {
+        ctx.fillText(own === "/" ? "╱" : "╲", s.x, s.y);
+        return;
+      }
+      const up = row > 0 && this.direction(f, i - cols) === "v",
+        down = row < rows - 1 && this.direction(f, i + cols) === "v",
+        left = col > 0 && this.direction(f, i - 1) === "h",
+        right = col < cols - 1 && this.direction(f, i + 1) === "h",
+        char =
+          up && down && left && right
+            ? "┼"
+            : up && down && left
+              ? "┤"
+              : up && down && right
+                ? "├"
+                : up && left && right
+                  ? "┴"
+                  : down && left && right
+                    ? "┬"
+                    : down && right
+                      ? "┌"
+                      : down && left
+                        ? "┐"
+                        : up && right
+                          ? "└"
+                          : up && left
+                            ? "┘"
+                            : up || down
+                              ? "│"
+                              : left || right
+                                ? "─"
+                                : own === "v"
+                                  ? "│"
+                                  : "─";
+      ctx.fillText(char, s.x, s.y);
+    }
+  }
   const RENDERERS = {
     "classic-ascii": new GlyphRenderer(),
     particles: new ParticleRenderer(),
@@ -1150,6 +1209,7 @@ export function createWireframeRuntime() {
     "retro-art": new RetroRenderer(),
     terminal: new TerminalRenderer(),
     "claude-code": new ClaudeRenderer(),
+    "line-art": new LineArtRenderer(),
   };
 
   class ColorEngine {
