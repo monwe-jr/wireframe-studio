@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "corepack pnpm --filter @wireframe/app dev",
-    "build": "corepack pnpm --filter @wireframe/app build",
+    "dev": "pnpm --filter @wireframe/app dev",
+    "build": "pnpm --filter @wireframe/app build",
     "test": "node --test packages/core/test/*.test.js packages/app/test/*.test.js",
     "benchmark:export": "node scripts/generate-benchmark-export.mjs",
     "benchmark:capture": "powershell -ExecutionPolicy Bypass -File scripts/capture-benchmarks.ps1",
