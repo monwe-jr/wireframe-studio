@@ -20,6 +20,8 @@ import {
   Minimize2,
   Mic,
   Music,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { AsciiCanvas } from "@wireframe/react";
 import { useEditor, saveConfig } from "./store.js";
@@ -283,16 +285,27 @@ function Sidebar({ onExport, onPresets, audioSource }) {
   const { config, setConfig, randomizeStyle } = useEditor();
   const [audioSourceType, setAudioSourceType] = useState("mic"),
     [audioError, setAudioError] = useState(""),
+    [audioPlaying, setAudioPlaying] = useState(false),
+    [audioMuted, setAudioMuted] = useState(false),
+    [audioLoop, setAudioLoop] = useState(true),
     audioFileInput = useRef(null);
   useEffect(() => {
     if (!audioSource || config.audioReactive) return;
     audioSource.stop();
+    setAudioPlaying(false);
   }, [config.audioReactive, audioSource]);
   const startMic = () => {
     if (!audioSource) return;
     setAudioSourceType("mic");
     setAudioError("");
+    setAudioPlaying(false);
     audioSource.startMic().catch(() => setAudioError("MIC ACCESS DENIED"));
+  };
+  const toggleMute = () => {
+    if (!audioSource) return;
+    const next = !audioMuted;
+    setAudioMuted(next);
+    audioSource.setMuted(next);
   };
   const update = (key) => (value) => setConfig({ [key]: value }),
     metadata = buildEditorMetadata(config);
@@ -385,10 +398,46 @@ function Sidebar({ onExport, onPresets, audioSource }) {
                   if (!file || !audioSource) return;
                   setAudioSourceType("file");
                   setAudioError("");
+                  setAudioPlaying(false);
                   audioSource
-                    .loadFile(file)
+                    .loadFile(file, { onEnded: () => setAudioPlaying(false) })
+                    .then(() => setAudioPlaying(true))
                     .catch(() => setAudioError("COULD NOT LOAD AUDIO FILE"));
                 }}
+              />
+              {audioSourceType === "file" && (
+                <Toggle
+                  label="REPLAY"
+                  checked={audioLoop}
+                  onChange={(value) => {
+                    setAudioLoop(value);
+                    audioSource?.setLoop(value);
+                  }}
+                />
+              )}
+              {audioSourceType === "file" && audioPlaying && (
+                <div className="audio-status">
+                  <span className="live-dot">PLAYING</span>
+                  <Button active={!audioMuted} onClick={toggleMute}>
+                    {audioMuted ? (
+                      <>
+                        <VolumeX size={12} /> MUTED
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 size={12} /> SOUND ON
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
+              <Slider
+                label="SENSITIVITY"
+                value={config.audioStrength}
+                min={0}
+                max={10}
+                step={0.1}
+                onChange={update("audioStrength")}
               />
               {audioError && <p className="hint">{audioError}</p>}
             </>
