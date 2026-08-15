@@ -222,6 +222,41 @@ function Toggle({ label, checked, onChange }) {
     </label>
   );
 }
+const MAX_CUSTOM_RESOLUTION = 640;
+function ResolutionField({ label, value, min, onCommit }) {
+  const [text, setText] = useState(String(value));
+  useEffect(() => setText(String(value)), [value]);
+  const parsed = Number(text);
+  const tooHigh = Number.isFinite(parsed) && parsed > MAX_CUSTOM_RESOLUTION;
+  const tooLow = Number.isFinite(parsed) && parsed < min;
+  const error = tooHigh
+    ? `Max ${label.toLowerCase()}: ${MAX_CUSTOM_RESOLUTION}`
+    : tooLow
+      ? `Min ${label.toLowerCase()}: ${min}`
+      : !Number.isFinite(parsed)
+        ? "Enter a number"
+        : null;
+  return (
+    <label className="field">
+      <span>{label}</span>
+      <input
+        className="text-input"
+        type="number"
+        min={min}
+        max={MAX_CUSTOM_RESOLUTION}
+        value={text}
+        onChange={(e) => {
+          const next = e.target.value;
+          setText(next);
+          const n = Number(next);
+          if (Number.isFinite(n) && n >= min && n <= MAX_CUSTOM_RESOLUTION)
+            onCommit(Math.round(n));
+        }}
+      />
+      {error && <small className="field-error">{error}</small>}
+    </label>
+  );
+}
 
 function makeDemo() {
   const c = document.createElement("canvas");
@@ -1093,16 +1128,43 @@ function Sidebar({ onExport, onPresets, audioSource }) {
             {[160, 240, 320, 480, 640].map((q) => (
               <Button
                 key={q}
-                active={config.quality === q}
-                onClick={() => setConfig({ quality: q })}
+                active={!config.customResolution && config.quality === q}
+                onClick={() => setConfig({ quality: q, customResolution: false })}
               >
                 {q}
               </Button>
             ))}
+            <Button
+              active={config.customResolution}
+              onClick={() => setConfig({ customResolution: true })}
+            >
+              CUSTOM
+            </Button>
           </div>
-          <p className="hint">
-            Higher resolution increases character density and render cost.
-          </p>
+          {config.customResolution ? (
+            <>
+              <ResolutionField
+                label="COLUMNS"
+                value={config.maxCols}
+                min={12}
+                onCommit={(maxCols) => setConfig({ maxCols })}
+              />
+              <ResolutionField
+                label="ROWS"
+                value={config.maxRows}
+                min={8}
+                onCommit={(maxRows) => setConfig({ maxRows })}
+              />
+              <p className="hint">
+                Exact grid size, up to {MAX_CUSTOM_RESOLUTION} per axis. Cells
+                scale up to fill the canvas.
+              </p>
+            </>
+          ) : (
+            <p className="hint">
+              Higher resolution increases character density and render cost.
+            </p>
+          )}
         </Section>
       </div>
       <div className="sidebar-actions">

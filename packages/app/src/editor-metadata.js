@@ -8,6 +8,6 @@ export function buildEditorMetadata(config={}) {
     ['AR',display(config.aspectRatio||'original')],
     ['FX',display(config.fxPreset||'none')],
     ['BG',String(config.background||'#000000').toUpperCase()],
-    ['RES',String(config.quality??320)]
+    ['RES',config.customResolution?`${config.maxCols}×${config.maxRows}`:String(config.quality??320)]
   ];
 }
