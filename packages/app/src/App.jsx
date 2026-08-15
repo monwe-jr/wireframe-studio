@@ -1461,7 +1461,8 @@ function App() {
           </p>
           <div className="about-stats">
             <span>
-              09<b>ART STYLES</b>
+              {String(STYLES.length).padStart(2, "0")}
+              <b>ART STYLES</b>
             </span>
             <span>
               05<b>MOTION FX</b>
