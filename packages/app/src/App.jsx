@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  Upload,
   Download,
   Shuffle,
   X,
