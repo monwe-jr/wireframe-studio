@@ -1583,6 +1583,7 @@ export function createWireframeRuntime() {
     }
     setSource(image) {
       this.source = image;
+      this.frame = null;
       this.resize();
     }
     resize() {
