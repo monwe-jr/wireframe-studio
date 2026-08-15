@@ -9,7 +9,7 @@ export const DEFAULT_CONFIG = {
   particleVariation: 0.36, particleJitter: 0.08, particleDepth: 0.72,
   lineSystem: 'flow', lineDirection: 0, lineContour: 0.28, lineLength: 1,
   lineVariation: 0.22, lineSecondary: 0.12,
-  quality: 320, aspectRatio: 'original', vignette: 0.18, borderGlow: 0.22, backgroundStyle: 'solid',
+  quality: 320, customResolution: false, maxCols: 480, maxRows: 480, aspectRatio: 'original', vignette: 0.18, borderGlow: 0.22, backgroundStyle: 'solid',
   colorMode: 'matrix-green', foreground: '#36e66a', background: '#020a04', accent: '#d8ff57', colorMix: 0.82,
   colorSaturation: 1, paletteBias: 0, highlightBoost: 0.38, invertColor: false,
   fxPreset: 'noise-field', fxStrength: 0.24, direction: 'down', noiseScale: 58, noiseSpeed: 0.2,

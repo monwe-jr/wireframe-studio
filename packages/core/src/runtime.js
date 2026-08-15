@@ -66,6 +66,9 @@ export function createWireframeRuntime() {
     lineVariation: 0.22,
     lineSecondary: 0.12,
     quality: 320,
+    customResolution: false,
+    maxCols: 320,
+    maxRows: 320,
     vignette: 0.18,
     borderGlow: 0.22,
     backgroundStyle: "solid",
@@ -292,14 +295,20 @@ export function createWireframeRuntime() {
           2 * dpr,
           (config.fontSize * config.characterSpacing * dpr * 0.62) / density,
         );
+      const colsCap = config.customResolution ? config.maxCols : config.quality,
+        rowsCap = config.customResolution ? config.maxRows : config.quality;
       const cols = Math.max(
         12,
-        Math.min(config.quality, Math.floor(width / cellPx)),
+        Math.min(colsCap, Math.floor(width / cellPx)),
       );
-      const cellW = width / cols,
-        cellH = cellW * (config.artStyle === "braille" ? 1.62 : 1.08);
-      const rows = Math.max(8, Math.ceil(height / cellH)),
-        scale = 4;
+      const cellW = width / cols;
+      let cellH = cellW * (config.artStyle === "braille" ? 1.62 : 1.08);
+      const rows = Math.max(
+        8,
+        Math.min(rowsCap, Math.ceil(height / cellH)),
+      );
+      cellH = height / rows;
+      const scale = 4;
       const aw = cols * scale,
         ah = rows * scale,
         canvas = document.createElement("canvas");
@@ -1573,6 +1582,9 @@ export function createWireframeRuntime() {
         "fontSize",
         "characterSpacing",
         "quality",
+        "customResolution",
+        "maxCols",
+        "maxRows",
         "densityScale",
         "invertColor",
       ];
