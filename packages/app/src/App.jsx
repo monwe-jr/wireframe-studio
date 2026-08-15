@@ -18,6 +18,8 @@ import {
   Save,
   Maximize2,
   Minimize2,
+  Mic,
+  Music,
 } from "lucide-react";
 import { AsciiCanvas } from "@wireframe/react";
 import { useEditor, saveConfig } from "./store.js";
@@ -26,6 +28,7 @@ import { exportHtml, exportPng, exportReact } from "./exporters.js";
 import { resolveOutputRatio } from "./aspect-ratio.js";
 import { buildEditorMetadata } from "./editor-metadata.js";
 import { createGenerationContext } from "./preset-generator.js";
+import { AudioReactiveSource } from "./audio-source.js";
 
 const COLOR_OPTIONS = [
   {
@@ -276,16 +279,43 @@ function loadImageFile(file) {
   reader.readAsDataURL(file);
 }
 
-function Sidebar({ onExport, onPresets }) {
+function Sidebar({ onExport, onPresets, audioSource }) {
   const { config, setConfig, randomizeStyle } = useEditor();
+  const [audioSourceType, setAudioSourceType] = useState("mic"),
+    [audioError, setAudioError] = useState(""),
+    audioFileInput = useRef(null);
+  useEffect(() => {
+    if (!audioSource || config.audioReactive) return;
+    audioSource.stop();
+  }, [config.audioReactive, audioSource]);
+  const startMic = () => {
+    if (!audioSource) return;
+    setAudioSourceType("mic");
+    setAudioError("");
+    audioSource.startMic().catch(() => setAudioError("MIC ACCESS DENIED"));
+  };
   const update = (key) => (value) => setConfig({ [key]: value }),
     metadata = buildEditorMetadata(config);
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <div className="wordmark">
-          <span>OPEN</span>
-          <strong>ASCII</strong>
+        <div className="brand-mark">
+          <svg width="26" height="26" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+            <path
+              d="M4 22 L15 4 L26 22 Z"
+              stroke="currentColor"
+              strokeWidth="1.6"
+            />
+            <path
+              d="M4 22 L15 22 L15 4"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              opacity=".5"
+            />
+          </svg>
+          <div className="wordmark">
+            WIRE<b>FRAME</b>
+          </div>
         </div>
         <p>ASCII EDITOR FOR ART, MOTION, INTERACTION, AND WEB EXPORTS</p>
         <div className="brand-links">
@@ -324,6 +354,45 @@ function Sidebar({ onExport, onPresets }) {
               </Button>
             ))}
           </div>
+          <Toggle
+            label="AUDIO REACTIVE"
+            checked={config.audioReactive}
+            onChange={update("audioReactive")}
+          />
+          {config.audioReactive && (
+            <>
+              <div className="segmented">
+                <Button active={audioSourceType === "mic"} onClick={startMic}>
+                  <Mic size={12} /> MIC
+                </Button>
+                <Button
+                  active={audioSourceType === "file"}
+                  onClick={() => {
+                    setAudioSourceType("file");
+                    audioFileInput.current?.click();
+                  }}
+                >
+                  <Music size={12} /> FILE
+                </Button>
+              </div>
+              <input
+                ref={audioFileInput}
+                type="file"
+                accept="audio/*"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (!file || !audioSource) return;
+                  setAudioSourceType("file");
+                  setAudioError("");
+                  audioSource
+                    .loadFile(file)
+                    .catch(() => setAudioError("COULD NOT LOAD AUDIO FILE"));
+                }}
+              />
+              {audioError && <p className="hint">{audioError}</p>}
+            </>
+          )}
           <Button className="add-layer" disabled>
             ＋ ADD LAYER <span>V2</span>
           </Button>
@@ -1166,11 +1235,17 @@ function App() {
     [presetsOpen, setPresetsOpen] = useState(false),
     [about, setAbout] = useState(false),
     [saved, setSaved] = useState(false),
-    [fullscreen, setFullscreen] = useState(false);
+    [fullscreen, setFullscreen] = useState(false),
+    [audioSource, setAudioSource] = useState(null);
   useEffect(() => {
     const demo = makeDemo();
     demo.img.onload = () => setSource(demo.img, "wireframe_demo.png", demo.url);
   }, [setSource]);
+  useEffect(() => {
+    const source = new AudioReactiveSource();
+    setAudioSource(source);
+    return () => source.destroy();
+  }, []);
   useEffect(() => {
     const fn = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "z") {
@@ -1312,6 +1387,7 @@ function App() {
               image={image}
               config={config}
               onStats={setStats}
+              audioSource={audioSource}
             />
             {loading && (
               <div className="canvas-loading" aria-label="Loading image">
@@ -1371,6 +1447,7 @@ function App() {
         <Sidebar
           onExport={() => setExportOpen(true)}
           onPresets={() => setPresetsOpen(true)}
+          audioSource={audioSource}
         />
       </main>
       {exportOpen && <ExportModal onClose={() => setExportOpen(false)} />}{" "}

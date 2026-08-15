@@ -101,6 +101,9 @@ export function createWireframeRuntime() {
     clickReturn: 0.34,
     clickDamping: 0.58,
     seed: 1337,
+    audioReactive: false,
+    audioStrength: 1,
+    audioMode: "outward",
   };
   const BAYER_4 = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
   const BRAILLE_BITS = [
@@ -620,13 +623,20 @@ export function createWireframeRuntime() {
         this.mass[i] = 0.7 + hash(i * 13) * 0.42 + structure * 0.58;
       }
     }
-    update(dt, pointer, config, frame, time) {
+    update(dt, pointer, config, frame, time, audio) {
       dt = Math.min(dt, 0.034);
       const radius = config.areaSize,
         forceScale = config.hoverStrength * 72,
         pressure = clamp(pointer.pressure || 0.5, 0.25, 1),
         burst = pointer.burst || 0,
-        clickForce = burst * (1.2 + pressure * 0.8);
+        clickForce = burst * (1.2 + pressure * 0.8),
+        audioActive = config.audioReactive && audio && audio.active,
+        audioPulse = audioActive
+          ? audio.amplitude * (config.audioStrength ?? 1) * 900 *
+            (config.audioMode === "inward" ? -1 : 1)
+          : 0,
+        audioCx = audioActive ? (frame.cols * frame.cellW) / 2 : 0,
+        audioCy = audioActive ? (frame.rows * frame.cellH) / 2 : 0;
       if (pointer.down || burst > 0.01) this.clickEnergy = 1;
       else this.clickEnergy *= Math.exp(-dt * 0.56);
       if (pointer.burst) {
@@ -689,6 +699,14 @@ export function createWireframeRuntime() {
               this.mass[i];
           ax += (dx / dist) * impulse;
           ay += (dy / dist) * impulse;
+        }
+        if (audioActive) {
+          const dx = this.rx[i] - audioCx,
+            dy = this.ry[i] - audioCy,
+            dist = Math.hypot(dx, dy) || 1,
+            force = audioPulse / this.mass[i];
+          ax += (dx / dist) * force;
+          ay += (dy / dist) * force;
         }
         if (
           config.fxPreset === "noise-field" ||
@@ -1501,6 +1519,7 @@ export function createWireframeRuntime() {
       this.source = null;
       this.frame = null;
       this.physics = null;
+      this.audioSource = null;
       this.pointer = {
         x: -1e4,
         y: -1e4,
@@ -1618,6 +1637,9 @@ export function createWireframeRuntime() {
       Object.freeze(this.frame);
       this.colors.update(this.config, this.frame);
       this.physics = new PhysicsField(this.frame);
+    }
+    setAudioSource(source) {
+      this.audioSource = source || null;
     }
     onPointer(e) {
       const r = this.canvas.getBoundingClientRect();
@@ -1856,7 +1878,8 @@ export function createWireframeRuntime() {
       if (!this.visible || !this.frame) return;
       const elapsed = clamp(dt, 1 / 240, 0.08),
         steps = Math.max(1, Math.ceil(elapsed / (1 / 60))),
-        step = elapsed / steps;
+        step = elapsed / steps,
+        audio = this.audioSource?.sample?.() ?? null;
       for (let i = 0; i < steps; i++)
         this.physics.update(
           step,
@@ -1864,6 +1887,7 @@ export function createWireframeRuntime() {
           this.config,
           this.frame,
           time - step * 1000 * (steps - i - 1),
+          audio,
         );
       const sctx = this.scene.getContext("2d", { alpha: true }),
         hctx = this.highlight.getContext("2d", { alpha: true });

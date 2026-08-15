@@ -16,7 +16,8 @@ export const DEFAULT_CONFIG = {
   temporalPersistence: 0, phosphorDecay: 0, ghostStrength: 0, ghostFrames: 0, ghostSpacing: 3, noiseOpacity: 0.04, glowStrength: 0.18,
   mouseMode: 'attract', hoverStrength: 13, areaSize: 180, spread: 1.25,
   springStrength: 32, damping: 9.5, particleDrag: 0.94,
-  clickSensitivity: 1, clickReturn: 0.34, clickDamping: 0.58, seed: 1337
+  clickSensitivity: 1, clickReturn: 0.34, clickDamping: 0.58, seed: 1337,
+  audioReactive: false, audioStrength: 1, audioMode: 'outward'
 };
 
 export const COLOR_MODES = {

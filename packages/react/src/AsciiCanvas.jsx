@@ -7,6 +7,7 @@ export function AsciiCanvas({
   className,
   staticFrame = false,
   exposeEngine = false,
+  audioSource = null,
   ...props
 }) {
   const ref = useRef(null),
@@ -28,6 +29,9 @@ export function AsciiCanvas({
     };
   }, []);
   useEffect(() => engine.current?.setConfig(config), [config]);
+  useEffect(() => {
+    engine.current?.setAudioSource(audioSource || null);
+  }, [audioSource]);
   useEffect(() => {
     if (image) {
       engine.current?.setSource(image);
