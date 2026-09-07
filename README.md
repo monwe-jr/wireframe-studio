@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="WireFrame_Logo_Ascii.png" alt="ascii_logo" width="600"/>
+  <img src="Wireframe_Logo_Ascii.png" alt="ascii_logo" width="600"/>
 </p>
 
 # WireFrame
@@ -194,5 +194,5 @@ MIT © [Saswat Sundar Rath](https://github.com/saswatsundar123) — see [LICENSE
 ---
 
 <p align="center">
-  <img src="WireFrame_Logo.png" alt="WireFrame Logo" width="320"/>
+  <img src="Wireframe_Logo.png" alt="WireFrame Logo" width="320"/>
 </p>
